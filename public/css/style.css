@@ -1,0 +1,50 @@
+.main-image{
+	background-image:url('http://www.bcci.bg/resources/news/2012-02/thumb_main_wine_web_1.jpg');
+	background-repeat: no-repeat;
+	height: 300px;
+	background-size: 100%;
+}
+
+.main-small-image{
+	background-image:url('http://www.bcci.bg/resources/news/2012-02/thumb_main_wine_web_1.jpg');
+	background-repeat: no-repeat;
+	height: 80px;
+	background-size: 100%;
+}
+.main-container{
+	
+}
+
+label{
+	width: 100px !important;
+}
+
+textarea{
+	width:500px;
+}
+
+.producer_list_name{
+	text-align: center;
+}
+
+
+
+.wine-li{
+	list-style: none !important;
+	width:160px;
+	float:left;
+	margin-right:40px;
+
+}
+
+.producer_name h4{
+	text-align: center;
+}
+
+.text{
+	margin-left: 0px;
+}
+
+.small_image{
+	height:100px;
+}

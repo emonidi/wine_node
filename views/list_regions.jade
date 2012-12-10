@@ -1,0 +1,8 @@
+extends small_header
+block main-container
+ .container
+  h3 Региони
+  for row in rows
+   p
+    h4
+     a(href='/regions/view/#{row.id}') #{row.region_name}

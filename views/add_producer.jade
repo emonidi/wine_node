@@ -1,0 +1,19 @@
+extends small_header
+block main-container
+ .container
+  h3 Добавяне на Производител
+  p
+   form(method='POST',action='')
+    fieldset
+     label Име: 
+      input(type='text', name='producer_name');
+     label Град: 
+      input(type='text',name='producer_town');
+     label Регион: 
+      select(name='region_id')
+       for row in rows
+        option(value='#{row.id}') #{row.region_name}
+     label Описание: 
+      textarea(name='producer_description', rows='10')
+     input.btn.btn-primary(type='submit');
+

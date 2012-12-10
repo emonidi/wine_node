@@ -1,0 +1,12 @@
+extends small_header
+block main-container
+ .container
+  h3 #{title}
+   form(method='post',action='')
+    fieldset
+     label Име: 
+      input(type='text',name='region_name')
+     label Описание: 
+      textarea(name='region_description',rows='10',cols='50')
+
+     input.btn.btn-primary(type='submit');

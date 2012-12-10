@@ -1,0 +1,19 @@
+extends small_header
+block main-container
+ .container
+  h3 Редакция на Производител: #{producer.producer_name}
+  p
+   form(method='POST',action='')
+    fieldset
+     label Име: 
+      input(type='text', name='producer_name',value='#{producer.producer_name}');
+     label Град: 
+      input(type='text',name='producer_town',value='#{producer.producer_town}');
+     label Регион: 	
+      select(name='region_id')
+       for row in regions
+        option(value='#{row.id}') #{row.region_name}
+     label Описание: 
+      textarea(name='producer_description', rows='10') #{producer.producer_description}
+     input.btn.btn-primary(type='submit');
+

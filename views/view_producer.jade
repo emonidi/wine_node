@@ -1,0 +1,42 @@
+extends small_header
+block main-container
+ 
+
+ #producerImageModal.modal.hide.fade
+  .modal-header
+   h4 Добавяне на снимка
+  .modal-body
+   form(enctype='multipart/form-data',method='post',action='/producers/producerImageAdder')
+    input(type="file", name="image")
+    input(type='hidden',name='producer_id',value='#{rows.id}')
+    input.btn.btn-primary(type='submit')
+ .container
+ 
+  -if(loged == true)
+   .row
+    .btn-group
+    a.btn(href='/producers/edit/#{rows.id}') Редакция
+    a.btn(href='#producerImageModal',data-toggle="modal",role="button") Добавяне на снимка
+  .row
+   h3 #{rows.producer_name}
+  .row
+   p
+   Град: 
+   b #{rows.producer_town}
+  .row
+   Регион: 
+   a(href='/regions/view/#{rows.region_id}') #{rows.region_name}
+  br
+  .row
+   .span6.text
+    p.well #{rows.producer_description}
+   .span6
+    -if(images)
+      ul.thumbnails
+       for img in images
+        li.span2
+         a.thumbnail.fancybox(href="/images/producers/#{img.image_name}",rel='gallery')
+          img.small_image(src="/images/producers/#{img.image_name}")
+     
+
+

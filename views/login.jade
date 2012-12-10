@@ -1,0 +1,10 @@
+extends small_header
+block main-container
+ .container
+   form(method='post',action='/login')
+    fieldset
+     label(for='username')Потребител
+     input(type='text',id='useranme',name='username')
+     label(for='password')Парола
+     input(type='password',id='password',name='password')
+    input.btn.btn-primary(type='submit')
