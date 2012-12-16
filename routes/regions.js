@@ -1,4 +1,4 @@
-var regionModel = require('../models/region');
+var regionModel = require('../models/mregion');
 exports.addView = function(req,res){
 	if(req.session.username){
 		var data = new Object;
@@ -12,32 +12,30 @@ exports.addView = function(req,res){
 
 exports.add = function(req,res){
 	var postData = req.body;
-	
-	regionModel.insertRegion(postData,function(err,rows){
-		if(rows.affectedRows){
-			res.redirect('/regions')
-		}	
+	var regionModel = require('../models/mregion');
+	regionModel.createRegion(postData,function(err,rows){
+		res.redirect('/regions');
 	});
 }
 
 exports.list = function(req,res){
    
-	regionModel.getRegions(function(err,rows){
+	regionModel.getAllRegions(function(err,rows){
 		if(rows){
-			var data  = new Object;
-			data.rows = rows
-			res.render('list_regions',data);		
-
+			var data = new Object;
+			data.rows  = rows;
+			
+			res.render('list_regions',data);
 		}
-	});
+	})
 	
 }
 
 exports.edit = function(req,res){
 
 	if(req.session.username){
-			var regionId = req.url.split('/')[3];
-		console.log(regionId);
+			var regionId = req.url.split("/")[3];
+	
 		if(regionId && regionId !== ''){
 			regionModel.getRegionById(regionId,function(err,rows){
 				var data = new Object;
@@ -58,12 +56,14 @@ exports.edit = function(req,res){
 exports.view = function(req,res){
 	var regionId = req.url.split("/")[3];
 	if(regionId && regionId !== ''){
+
 			regionModel.getRegionById(regionId,function(err,rows){
 				var data = new Object;
+				//res.send(rows);
 				data.title = "Редакция на Регион";
 				data.region_name=rows[0]['region_name'];
 				data.region_description=rows[0]['region_description'];
-				data.id =  rows[0]['id'];
+				data.id =  rows[0]['_id'];
 				if(req.session.username){
 					data.loged  = true;
 				}else{
@@ -78,11 +78,21 @@ exports.view = function(req,res){
 }
 
 exports.editor = function(req,res){
-	var regionId = req.url.split('/')[3];
+	var regionId = req.url.split("/")[3];
+	
 	var postData = req.body;
-	regionModel.editRegion(postData,regionId,function(err,rows){
-		if(rows.affectedRows == 1){
+	regionModel.editRegion(regionId,postData,function(err,rows){
+		if(rows === 1){
 			res.redirect('/regions/view/'+regionId);
 		}
 	});
+}
+
+exports.delete = function(req,res){
+	var regionId = req.url.split("/")[3];
+	regionModel.delete(regionId,function(err,rows){
+		if(rows === 1){
+			res.redirect('/regions');
+		}
+	})
 }

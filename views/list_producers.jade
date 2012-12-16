@@ -6,16 +6,18 @@ block main-container
   for row in rows
    <li class='span3'>
    <div class='thumbnail'>
-   -if(!row.image_name)
-    <img src='http://dribbble.s3.amazonaws.com/users/5259/screenshots/71084/shot_1288164080.jpg'/>
+   -if(!row.images)
+    a(href='/producers/view/#{row._id}')<img src='http://dribbble.s3.amazonaws.com/users/5259/screenshots/71084/shot_1288164080.jpg'/>
    -else
-    <img src='/images/producers/#{row.image_name}'/>
+    a(href='/producers/view/#{row._id}')<img src='/images/producers/#{row.images[0].image_name}'/>
    <div class='caption'>
-   h3.producer_list_name #{row.producer_name}
+
+   h3.producer_list_name
+    a(href='/producers/view/#{row._id}')!{row.producer_name}
    </div>
-   <p>#{row.producer_description}...</p>
+   
    p
-    a(href='/producers/view/#{row.id}') Oще
+  
    </div>
    </li>
   </ul>

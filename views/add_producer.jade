@@ -12,7 +12,7 @@ block main-container
      label Регион: 
       select(name='region_id')
        for row in rows
-        option(value='#{row.id}') #{row.region_name}
+        option(value='#{row._id}') #{row.region_name}
      label Описание: 
       textarea(name='producer_description', rows='10')
      input.btn.btn-primary(type='submit');

@@ -1,10 +1,13 @@
 doctype 5
 html
   head
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     link(rel='stylesheet',href='/fancybox/jquery.fancybox.css')
     link(rel='stylesheet', href='/css/bootstrap.css')
-    
+    link(rel='stylesheet', href='/css/bootstrap-responsive.css')
+    link(rel='stylesheet',href='/css/style.css')
     script(src='http://code.jquery.com/jquery-1.8.3.min.js')
+    <script type="text/javascript" src="https://raw.github.com/GBKS/Wookmark-jQuery/master/jquery.wookmark.js"></script>
 
     script(src='/fancybox/jquery.fancybox.js')
     script
@@ -19,6 +22,13 @@ html
     script(src='http://js.nicedit.com/nicEdit-latest.js')
     script
       bkLib.onDomLoaded(nicEditors.allTextAreas); 
+      $(document).ready(function(){
+      $('.box').wookmark({
+      container: $('.main-container'),
+      offset: 20,
+      autoResize: true
+      });
+      });
   body
   .row
    .navbar.navbar-inverse.navbar-fixed-top

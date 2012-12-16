@@ -1,16 +1,16 @@
-var producerModel  = require('../models/producer');
+var producerModel  = require('../models/mproducer');
 
 exports.add = function(req,res){
 	if(req.session.username){
-	var regionModel = require('../models/region');
+	var regionModel = require('../models/mregion');
 
-		regionModel.getRegions(function(err,rows){
+		regionModel.getAllRegions(function(err,rows){
 			
 			var data = new Object;
 			data.rows = rows;
 			res.render('add_producer',data);
 		});
-
+		
 		
 		
 	}else{
@@ -22,43 +22,59 @@ exports.add = function(req,res){
 exports.list = function(req,res){
 	producerModel.getProducers(function(err,rows){
 		if(rows){
-			var data  = new Object();
+			
+			var data =  new Object;
 			data.rows = rows;
-			if(req.session.username){
-				data.loged = true;
-			}else{
-				data.loged =  false;
+			var dataRowsLength = data.rows.length - 1;
+			var producersId  ='';
+				for(var i in data.rows){
+					producersId = producersId + "'"+data.rows[i]._id+"',";
+					producerModel.getProducerImages(data.rows[i]._id,function(err,rows){
+						console.log(rows);
+					});
+				}
+
+				//res.send(producersId);
+				res.render('list_producers',data)
 			}
-			res.render("list_producers",data);
-		}
+			
+		
+		
 	});
 }
-
+	
  exports.view = function(req,res){
+ 	
  	var producerId = req.url.split("/")[3];
  	producerModel.getProducerById(producerId,function(err,rows){
- 		if(rows){
- 			var data = new Object;
- 			data.images = new Array;
+		if(rows){
+			var regionModel  = require("../models/mregion");
+			var data = new Object;
  			data.rows = rows[0];
- 			var c = 0;
- 			for(var i in rows){
- 				if(rows[i]['image_name']){
- 					data.images[c++] = {"image_name":rows[i]['image_name'],"image_id":rows[i]['image_id']}
-
- 				}
- 			}
 
 
-
+ 			
+ 			data.images = '';
  			if(req.session.username){
  				data.loged = true;
  			}else{
  				data.loged = false;
  			}
  			
- 			res.render('view_producer',data);
- 		}
+ 			var regionModel = require('../models/mregion');
+ 			regionModel.getRegionById(data.rows.region_id,function(err,r){
+ 				data.rows.region_name = r[0].region_name;
+ 				res.render('view_producer',data);
+ 				//data.rows.region_name = rows
+ 			});
+
+ 			//regionModel.getProducerById()
+ 		
+ 		
+ 				
+ 			
+
+		} 	
  	});
  }
 
@@ -67,9 +83,8 @@ exports.adder = function(req,res){
 	var postData = req.body;
 
 	producerModel.insertProducer(postData,function(err,rows){
-		if(rows.affectedRows == 1){
-			res.redirect("/producers");
-		}
+		throw err,
+		res.redirect('/producer/view/'+rows._id);	
 	});
 
 }
@@ -83,11 +98,13 @@ exports.imageAdder = function(req,res){
 		var image_name = file.name;
 		var path = './public/images/producers';
 		imageHelper.upload(file,path);
-		var postData = new Array;
+		var postData = new Object;
 		postData['image_name'] = image_name;
 		postData['producer_id'] = producerId;
 		producerModel.addImage(postData,function(err,rows){
-			res.redirect('/producers/view/'+producerId);
+			if(rows){
+				res.redirect('/producers/view/'+producerId);
+			}
 		});
 	}else{
 		res.redirect('/producers/view/'+producerId);
@@ -96,38 +113,25 @@ exports.imageAdder = function(req,res){
 
 
 exports.edit  = function(req,res){
-      
-		if(req.session.username !==''){
-		var producerId  = req.url.split('/')[3];
- 		var regions = new Object;
- 		var regionModel = require('../models/region');
- 		regionModel.getRegions(function(err,rows){
- 			regions = rows;
- 			return regions;
- 		});
-		producerModel.getProducerById(producerId,function(error,rows){
-			
-		    var data = new Object;
-		    data.producer  = rows['0'];
-		    
-		    data.images = new Array;
-		    var c = 0;
-		    for (var i in rows){
-		    	if(rows[i]['producer_name'] !== null){
-		    		data.images[c] = {"image_name":rows[i]['image_name'],'image_id':rows[i]['image_id']}
-		    	}
-		    }
-			
-			var interval = setInterval(function(){
-				if(regions.hasOwnProperty){
-					clearInterval(interval);
-					data.regions = regions;
-					res.render('edit_producer',data);
+    if(req.session.username){
+    	var producerId = req.url.split('/')[3];
 
-				}
-			});
-		});
-		
+    	producerModel.getProducerById(producerId,function(err,rows){
+    		if(rows){
+    			var data = new Object;
+    			data.producer = rows[0];
+    			var regionModel = require('../models/mregion');
+    			regionModel.getAllRegions(function(err,rows){
+    				if(rows){
+    					data.regions = rows;
+    				}else{
+    					data.regions = '';
+    				}
+
+    				res.render('edit_producer',data);
+    			});
+    		}
+    	});	
 	}else{
 		req.session.ref=req.url;
 		res.redirect('login');
@@ -139,8 +143,14 @@ exports.editor = function(req,res){
 	var producerId = req.url.split('/')[3];
 	var postData = req.body;
 	producerModel.updateProducer(producerId,postData,function(err,rows){
-		if(rows.affectedRows == 1){
+		if(rows){
 			res.redirect('/producers/view/'+producerId);
 		}
 	});
+}
+
+
+exports.delete = function(req,res){
+	var producerId = req.url.split('/')[3];
+	res.send(producerId);
 }

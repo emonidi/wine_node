@@ -48,3 +48,11 @@ textarea{
 .small_image{
 	height:100px;
 }
+
+#container-masonry{
+
+	top:230px !important;
+	position:absolute !important;
+	margin:0 auto !important;
+	padding: auto !important;
+}

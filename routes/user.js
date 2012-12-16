@@ -10,21 +10,19 @@ exports.list = function(req, res){
 exports.login = function(req,res){
 	
 	var qs = require('querystring');
-	var userModel = require('../models/user');
+	var userModel = require('../models/muser');
+	console.log(req.session.ref);
 	var username = req.body.username;
 	var pass = req.body.password;
 	userModel.getUserByUsername(username,function(err,rows){
-		
-		if(rows[0]['username'] == username){
+		 
+		 if(rows[0].username == username){
+		 	req.session.username = rows[0].username;
+		 	res.redirect(req.session.ref);
+		 }
+	})
 
-			req.session.username = username;
-			res.redirect(req.session.ref);
-			
-		}else{
-			req.session = {}
-		}
-	});
-  	return req;
+  	//return req;
 	
 	
 };

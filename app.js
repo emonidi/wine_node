@@ -33,13 +33,19 @@ app.configure('development', function(){
 
 app.get('/', routes.index);
 app.get('/users', user.list);
-app.get('/wines/add',wine.add);
+
 app.post('/login',user.login);
 app.get('/login',user.loginView);
 app.get('/logout',user.logout);
 app.get('/producers',producer.list);
 app.get('/producers/add',producer.add);
 
+
+//WINES
+app.get('/wines/add',wine.add);
+app.post('/wines/add',wine.adder);
+app.get('/wines',wine.list);
+app.get(new RegExp('/wines/edit/'),wine.edit);
 
 //REGIONS
 app.get('/regions/add',region.addView);
@@ -48,6 +54,7 @@ app.post(new RegExp('/regions/edit/'),region.editor);
 app.get('/regions',region.list);
 app.get(new RegExp('/regions/edit/'),region.edit);
 app.get(new RegExp('/regions/view/'),region.view);
+app.get(new RegExp('/regions/delete/'),region.delete);
 
 //PRODUCERS
 app.get('/producers',producer.list);
@@ -57,6 +64,7 @@ app.get(new RegExp('/producers/view/'),producer.view);
 app.post('/producers/producerImageAdder',producer.imageAdder);
 app.get(new RegExp('/producers/edit'),producer.edit);
 app.post(new RegExp('/producers/edit'),producer.editor);
+app.get(new RegExp('/producers/deletes'),producer.delete);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

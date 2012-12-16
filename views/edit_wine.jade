@@ -1,25 +1,25 @@
 extends small_header
 block main-container
  .container
-  h3 Добавяне на Вино
+  h3 Редакция на Вино
   p
    form(method='POST',action='')
     fieldset
      label Име: 
-      input(type='text', name='wine_name');
+      input(type='text', name='wine_name', value="#{wine.wine_name}");
      label Производител:
       select(name='producer_id')
        -for p in producers
-        option(value='#{p._id}') #{p.producer_name}
+        option(value='#{p.producer_name}') #{p.producer_name}
      label Вид:
       select(name='type')
        option(value='Червено') Червено
        option(value='Бяло') Бяло
        option(value='Розе') Розе
      label Година:
-      input(type='text',name='year')
+      input(type='text',name='year',value='#{wine.year}')
      label Цена:
-      input(type='text',name='price')
+      input(type='text',name='price', value='#{wine.price}')
      label Описание:
-      textarea(name='description',rows='10')
+      textarea(name='description',rows='10') #{wine.description}
      input.btn.btn-primary(type='submit')

@@ -1,9 +1,9 @@
 var mysql = require('mysql');
 var db = mysql.createConnection({
-	host:'localhost',
-	user:'root',
-	password:'',
-	database:'trip'
+	host:'mysql9.000webhost.com',
+	user:'a3458850_wine',
+	password:'Emo05051981',
+	database:'a3458850_wine'
 });
 
 exports.insertRegion = function(postData,callback){

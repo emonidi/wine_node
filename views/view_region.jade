@@ -2,7 +2,10 @@ extends small_header
 block main-container
  .container
   h3 #{region_name}
-  p #{region_description}
+  br
+  p!{region_description}
   -if (loged==true)
    p
     a(href="/regions/edit/#{id}")Редакция
+   p
+    a(href="/regions/delete/#{id}")Изтриване

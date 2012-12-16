@@ -8,14 +8,14 @@ block main-container
   .modal-body
    form(enctype='multipart/form-data',method='post',action='/producers/producerImageAdder')
     input(type="file", name="image")
-    input(type='hidden',name='producer_id',value='#{rows.id}')
+    input(type='hidden',name='producer_id',value='#{rows._id}')
     input.btn.btn-primary(type='submit')
  .container
  
   -if(loged == true)
    .row
     .btn-group
-    a.btn(href='/producers/edit/#{rows.id}') Редакция
+    a.btn(href='/producers/edit/#{rows._id}') Редакция
     a.btn(href='#producerImageModal',data-toggle="modal",role="button") Добавяне на снимка
   .row
    h3 #{rows.producer_name}
@@ -28,15 +28,16 @@ block main-container
    a(href='/regions/view/#{rows.region_id}') #{rows.region_name}
   br
   .row
-   .span6.text
-    p.well #{rows.producer_description}
+   .span5.text.well
+    !{rows.producer_description}
    .span6
-    -if(images)
+    -if(rows.images)
       ul.thumbnails
-       for img in images
+       for img in rows.images
         li.span2
          a.thumbnail.fancybox(href="/images/producers/#{img.image_name}",rel='gallery')
           img.small_image(src="/images/producers/#{img.image_name}")
-     
+    else
+
 
 
