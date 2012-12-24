@@ -42,8 +42,8 @@ exports.list = function(req,res){
 		if(rows){
 			var data = new Object;
 			data.rows = rows;
-			res.send(rows);
-			//res.render('list_wines',data)
+			//res.send(rows);
+			res.render('list_wines',data)
 		}else{
 			res.send(err);
 		}
@@ -71,4 +71,23 @@ exports.edit = function(req,res){
 			res.send(err);
 		}
 	});
+}
+
+exports.editor = function(req,res){
+		var wineId  = req.url.split("/")[3];
+		var postData = req.body;
+		wineModel.updateWine(wineId,postData,function(err,rows){
+			if(rows){
+				res.redirect('/wines/view/'+wineId);
+			}
+		});
+}
+
+exports.view = function(req,res){
+	var wineId  = req.url.split("/")[3];
+	wineModel.getWineById(wineId,function(err,rows){
+		if(rows){
+			res.send(rows);
+		}
+	}) 
 }

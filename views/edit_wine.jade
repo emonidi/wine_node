@@ -8,7 +8,7 @@ block main-container
      label Име: 
       input(type='text', name='wine_name', value="#{wine.wine_name}");
      label Производител:
-      select(name='producer_id')
+      select(name='producer_name')
        -for p in producers
         option(value='#{p.producer_name}') #{p.producer_name}
      label Вид:

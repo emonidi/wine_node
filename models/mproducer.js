@@ -61,3 +61,10 @@ exports.getProducersNames = function(callback){
 		callback(err,rows);
 	});
 }
+
+
+exports.getProducerIndex = function(callback){
+    db.producers.find(function(err,rows){
+       callback(err,rows);
+    }).limit(3);
+}

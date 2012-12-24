@@ -10,7 +10,7 @@ block main-container
      label Производител:
       select(name='producer_id')
        -for p in producers
-        option(value='#{p._id}') #{p.producer_name}
+        option(value='#{p.producer_name}') #{p.producer_name}
      label Вид:
       select(name='type')
        option(value='Червено') Червено

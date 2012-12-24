@@ -46,7 +46,8 @@ app.get('/wines/add',wine.add);
 app.post('/wines/add',wine.adder);
 app.get('/wines',wine.list);
 app.get(new RegExp('/wines/edit/'),wine.edit);
-
+app.post(new RegExp('/wines/edit/'),wine.editor);
+app.get(new RegExp('/wines/view/'),wine.view);
 //REGIONS
 app.get('/regions/add',region.addView);
 app.post('/regions/add',region.add);

@@ -276,6 +276,7 @@
 
   Carousel.prototype = {
 
+
     cycle: function (e) {
       if (!e) this.paused = false
       this.options.interval
@@ -370,7 +371,9 @@
       }
 
       isCycling && this.cycle()
-
+      this.itemsCount = $active.parent().children().size();
+      this.activePos = $active.parent().children().index($active)+1;
+      
       return this
     }
 
@@ -386,6 +389,7 @@
         , data = $this.data('carousel')
         , options = $.extend({}, $.fn.carousel.defaults, typeof option == 'object' && option)
         , action = typeof option == 'string' ? option : options.slide
+      var CarouselItems = Carousel;
       if (!data) $this.data('carousel', (data = new Carousel(this, options)))
       if (typeof option == 'number') data.to(option)
       else if (action) data[action]()
@@ -393,10 +397,13 @@
     })
   }
 
+
+
   $.fn.carousel.defaults = {
     interval: 5000
   , pause: 'hover'
   }
+
 
   $.fn.carousel.Constructor = Carousel
 

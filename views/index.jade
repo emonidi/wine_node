@@ -1,3 +1,23 @@
-extend layout
-block content
-	input(type='text')
+extend layout1
+block main-content
+    section#slider
+        .carousel.slide
+            .carousel-inner
+                .active.item
+                    img(src='http://www.maestro2300.com/cms/wp-content/uploads/2012/04/wine1-bg1.jpg');
+                .item
+                    img(src='http://upload.wikimedia.org/wikipedia/commons/5/57/Port_wine.jpg');
+                .item
+                    img(src='http://www.bcci.bg/resources/news/2012-02/thumb_main_wine_web_1.jpg');
+    section#services
+        h4.span1.noLeft Производители
+        .separator
+            .separator-head
+        .services
+            for pr, i in producers
+                div(class=(i == 2 ? 'service last' : 'service'))
+                   .service-image
+                      img(src='/images/producers/#{pr.images[0].image_name}')
+                   .service-title
+                    a(href='/producers/view/#{pr._id}')
+                        h4 #{pr.producer_name}
